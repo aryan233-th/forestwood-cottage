@@ -1,0 +1,693 @@
+Hi, I want to book a room at Forest Wood Cottage<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Forest Wood Cottage - Premium Homestay in Manali</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            overflow-x: hidden;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #072841;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1d1d1f;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: #b3b9c1; }
+        .book-btn {
+            background: linear-gradient(135deg, #0a2c4f, #e0e076);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(208, 199, 8, 0.3);
+        }
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://betabo.yuvashakti.org/uploads/Trek_Images/TR000030/TR000075.jpeg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-primary, .cta-secondary {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .cta-primary {
+            background: white;
+            color: #000000;
+        }
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255,255,255,0.3);
+        }
+        .cta-secondary:hover {
+            background: white;
+            color: #000000;
+        }
+        .rooms-section {
+            padding: 6rem 0;
+            background: #f5f5f7;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1d1d1f;
+        }
+        .rooms-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.4s;
+        }
+        .room-card {
+            flex: 1 1 0;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: 
+                transform 0.4s,
+                box-shadow 0.4s,
+                filter 0.4s,
+                opacity 0.4s;
+            opacity: 0.7;
+            filter: blur(2px);
+            box-shadow: none;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .room-card.selected {
+            transform: scale(1.08);
+            opacity: 1;
+            filter: none;
+            box-shadow: 0 0 30px 0 #a67c52, 0 0 0 4px #fff;
+            z-index: 2;
+        }
+        .room-card.left {
+            transform: translateX(-120px) scale(0.95);
+        }
+        .room-card.right {
+            transform: translateX(120px) scale(0.95);
+        }
+        .room-image {
+            height: 250px;
+            background: linear-gradient(45deg, #4a7c59, #2c5530);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        .room-content { padding: 2rem; }
+        .room-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1d1d1f;
+        }
+        .room-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0d1212;
+            margin-bottom: 1rem;
+        }
+        .room-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .room-features li {
+            padding: 0.5rem 0;
+            color: #86868b;
+            display: flex;
+            align-items: center;
+        }
+        .room-features li:before {
+            content: "✓";
+            color: #424b7a;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .room-card .book-btn {
+            background: linear-gradient(135deg, #424a56, #969432);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .room-card .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+        }
+        .features-section { padding: 6rem 0; background: white; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-5px); }
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #7fb9cb, #257887);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1d1d1f;
+        }
+        .feature-description { color: #86868b; line-height: 1.6; }
+        .location-section { padding: 6rem 0; background: #f5f5f7; }
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        .location-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .location-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1d1d1f;
+        }
+        .location-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .location-item:last-child { border-bottom: none; }
+        .footer {
+            background: #1d1d1f;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .footer-section p, .footer-section li {
+            color: #86868b;
+            margin-bottom: 0.5rem;
+        }
+        .footer-section ul { list-style: none; }
+        .footer-section a {
+            color: #86868b;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover { color: white; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #86868b;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 900px) {
+            .rooms-grid { flex-direction: column; align-items: center; }
+            .room-card { width: 95%; }
+            .navbar { padding: 0 1rem; }
+        }
+        @media (max-width: 600px) {
+            .hero-content { padding: 1.2rem 0.5rem; }
+            .rooms-section { padding: 2rem 0.5rem; }
+            .navbar { height: 60px; }
+            .logo { font-size: 1.1rem; }
+            .nav-links { gap: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Forest Wood Cottage</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#features">Amenities</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+                        <!-- Replace your Book Now button with this -->
+            <a
+              href="https://wa.me/918219326850?text=Hi%2C%20I%20want%20to%20book%20a%20room%20at%20Forest%20Wood%20Cottage"
+                class="book-btn"
+              target="_blank"
+              rel="noopener"
+            >
+              Book Now
+            </a>
+            
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Forest Wood Cottage</h1>
+            <p>Experience tranquility in the heart of Manali's pristine mountains. Your perfect mountain retreat awaits.</p>
+            <div class="cta-buttons">
+                <a href="#rooms" class="cta-primary">Explore Rooms</a>
+                <a href="#contact" class="cta-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="rooms-section" id="rooms">
+        <div class="container">
+            <h2 class="section-title">Our Rooms</h2>
+            <div class="rooms-grid">
+                <div class="room-card selected" data-room="standard">
+                    <div class="room-image">
+                      <img src="https://assets.architecturaldigest.in/photos/624b1d715ba30c7644d06ab0/3:2/w_1620,h_1080,c_limit/Manali%20home-1.jpg" alt="Standard Room">
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Standard Room</h3>
+                        <div class="room-price">₹774<span style="font-size: 1rem; color: #86868b;">/night</span></div>
+                        <ul class="room-features">
+                            <li>Private bathroom</li>
+                            <li>Work desk</li>
+                            <li>Free toiletries</li>
+                            <li>TV & WiFi</li>
+                        </ul>
+                                                <a
+                          href="https://wa.me/918219326850?text=Hi%2C%20I%20want%20to%20book%20the%20Standard%20Room%20at%20Forest%20Wood%20Cottage"
+                          class="book-btn"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          Book Standard Room
+                        </a>
+                    </div>
+                </div>
+                <div class="room-card" data-room="deluxe">
+                    <div class="room-image">
+                      <img src="https://assets.architecturaldigest.in/photos/624b1d715ba30c7644d06ab0/3:2/w_1620,h_1080,c_limit/Manali%20home-1.jpg" alt="Deluxe Room">
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Deluxe Room with Balcony</h3>
+                        <div class="room-price">₹1,044<span style="font-size: 1rem; color: #86868b;">/night</span></div>
+                        <ul class="room-features">
+                            <li>Mountain view balcony</li>
+                            <li>Private bathroom</li>
+                            <li>Work desk</li>
+                            <li>Premium amenities</li>
+                        </ul>
+                        
+                                                <a
+                          href="https://wa.me/918219326850?text=Hi%2C%20I%20want%20to%20book%20the%20Standard%20Room%20at%20Forest%20Wood%20Cottage"
+                          class="book-btn"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          Book delux Room
+                        </a>
+                    </div>
+                </div>
+                <div class="room-card" data-room="family">
+                    <div class="room-image">
+                      <img src="https://assets.architecturaldigest.in/photos/624b1d715ba30c7644d06ab0/3:2/w_1620,h_1080,c_limit/Manali%20home-1.jpg" alt="Family Room">
+                    </div>
+                    <div class="room-content">
+                        <h3 class="room-title">Family Quad Room</h3>
+                        <div class="room-price">₹1,739<span style="font-size: 1rem; color: #86868b;">/night</span></div>
+                        <ul class="room-features">
+                            <li>Mountain view balcony</li>
+                            <li>Family-friendly space</li>
+                            <li>4 guests capacity</li>
+                            <li>Extra amenities</li>
+                        </ul>
+                                                <a
+                          href="https://wa.me/918219326850?text=Hi%2C%20I%20want%20to%20book%20the%20Standard%20Room%20at%20Forest%20Wood%20Cottage"
+                          class="book-btn"
+                          target="_blank"
+                          rel="noopener"
+                        >
+                          Book family Room
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Premium Amenities</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📶</div>
+                    <h3 class="feature-title">Free WiFi</h3>
+                    <p class="feature-description">Stay connected with complimentary high-speed internet throughout the property.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🅿️</div>
+                    <h3 class="feature-title">Free Parking</h3>
+                    <p class="feature-description">Secure on-site parking available for all guests at no additional cost.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍳</div>
+                    <h3 class="feature-title">Breakfast</h3>
+                    <p class="feature-description">Start your day with our delicious child-friendly breakfast buffet.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏔️</div>
+                    <h3 class="feature-title">Mountain Views</h3>
+                    <p class="feature-description">Wake up to breathtaking panoramic views of the Himalayas from your balcony.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎿</div>
+                    <h3 class="feature-title">Ski Equipment</h3>
+                    <p class="feature-description">Convenient ski equipment hire service for winter sports enthusiasts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐾</div>
+                    <h3 class="feature-title">Pet Friendly</h3>
+                    <p class="feature-description">Bring your furry friends along for the mountain adventure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location-section" id="location">
+        <div class="container">
+            <h2 class="section-title">What's Nearby</h2>
+            <div class="location-grid">
+                <div class="location-card">
+                    <h3 class="location-title">Restaurants & Cafes</h3>
+                    <div class="location-item">
+                        <span>Paradise Cafe</span>
+                        <span>1.3 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>Cafe King Negi</span>
+                        <span>1.3 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>The Bees Knees Cafe</span>
+                        <span>1.3 km</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <h3 class="location-title">Natural Attractions</h3>
+                    <div class="location-item">
+                        <span>Rahala Falls</span>
+                        <span>1.4 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>Hidimba Devi Temple</span>
+                        <span>1.2 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>Solang Valley</span>
+                        <span>15 km</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <h3 class="location-title">Transportation</h3>
+                    <div class="location-item">
+                        <span>Kullu-Manali Airport</span>
+                        <span>51 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>Manali Bus Stand</span>
+                        <span>2 km</span>
+                    </div>
+                    <div class="location-item">
+                        <span>Circuit House</span>
+                        <span>1.7 km</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Forest Wood Cottage</h3>
+                    <p>Your premium mountain retreat in the heart of Manali. Experience the perfect blend of comfort and nature.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#rooms">Rooms</a></li>
+                        <li><a href="#features">Amenities</a></li>
+                        <li><a href="#location">Location</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Policies</h3>
+                    <ul>
+                        <li>24-hour check-in available</li>
+                        <li>Check-out: 11:00 AM - 12:00 PM</li>
+                        <li>Children welcome</li>
+                        <li>Pets allowed (charges apply)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Payment Methods</h3>
+                    <p>We accept all major credit cards, cash, and digital payments including Visa, Mastercard, American Express, and more.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Forest Wood Cottage. All rights reserved. | Designed for modern travelers</p>
+            </div>
+        </div>
+      
+        
+        <!-- Add this inside the footer-content div, as a new footer-section -->
+        <div class="footer-section social-links">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/forestwood_cottage?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://facebook.com/forestwoodcottage" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com/forestwoodcottage" target="_blank" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://youtube.com/forestwoodcottage" target="_blank" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Book button functionality
+        const bookButtons = document.querySelectorAll('.book-btn');
+        bookButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    alert('Booking system coming soon! Please call us directly for reservations.');
+                }, 150);
+            });
+        });
+
+        // Room selection effect
+        function selectRoomCard(card) {
+            const cards = Array.from(document.querySelectorAll('.room-card'));
+            cards.forEach((c, i) => {
+                c.classList.remove('selected', 'left', 'right');
+                c.style.zIndex = 1;
+            });
+            card.classList.add('selected');
+            card.style.zIndex = 2;
+            const idx = cards.indexOf(card);
+            cards.forEach((c, i) => {
+                if (i < idx) c.classList.add('left');
+                else if (i > idx) c.classList.add('right');
+            });
+        }
+
+        document.querySelectorAll('.room-card').forEach(card => {
+            card.addEventListener('click', function() {
+                selectRoomCard(this);
+            });
+        });
+
+        // Select the first room by default
+        window.addEventListener('DOMContentLoaded', function() {
+            const firstCard = document.querySelector('.room-card');
+            if (firstCard) selectRoomCard(firstCard);
+        });
+
+        // Intersection Observer for feature cards only (not room cards)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
